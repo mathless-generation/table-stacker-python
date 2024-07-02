@@ -12,7 +12,10 @@ from var.program_var import *
 if __name__ == "__main__":
     print("- Please input the directory where the files located.")
     files_dir = input("Directory: ") 
-    files_dir = files_dir.replace("\\", "/")
+    files_dir = files_dir.replace("\\", "/") 
+    
+    if files_dir[-1] == "/": 
+        files_dir = files_dir[:-2]
 
     if os.path.isdir(files_dir) is False: 
         raise NotADirectoryError("!!! That ain't no a legit directory dawg !!!") 
