@@ -53,7 +53,7 @@ E.g. The output file will have a new column called "SourcePath" and the files in
         source_path_mode = False 
 
     else: 
-        raise ValueError("!!! Please just input Y or N (Y means Yes and No means No) dawg !!!")  
+        raise ValueError("!!! Please just input Y or N (Y means Yes and N means No) dawg !!!")  
 
     file_path_list = [] 
     file_path_all_file_list = get_all_file_paths(files_dir)

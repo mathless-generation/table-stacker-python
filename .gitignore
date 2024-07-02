@@ -1,2 +1,6 @@
+main.spec
+
+build/
+dist/
 table-stacker/
 */__pycache__
