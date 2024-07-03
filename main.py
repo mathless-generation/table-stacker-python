@@ -12,10 +12,7 @@ from var.program_var import *
 if __name__ == "__main__":
     print("- Please input the directory where the files located.")
     files_dir = input("Directory: ") 
-    files_dir = files_dir.replace("\\", "/") 
-    
-    if files_dir[-1] == "/": 
-        files_dir = files_dir[:-2]
+    files_dir = files_dir.replace("\\", "/")
 
     if os.path.isdir(files_dir) is False: 
         raise NotADirectoryError("!!! That ain't no a legit directory dawg !!!") 
@@ -53,12 +50,12 @@ E.g. The output file will have a new column called "SourcePath" and the files in
         source_path_mode = False 
 
     else: 
-        raise ValueError("!!! Please just input Y or N (Y means Yes and N means No) dawg !!!")  
+        raise ValueError("!!! Please just input Y or N (Y means Yes and No means No) dawg !!!")  
 
     file_path_list = [] 
     file_path_all_file_list = get_all_file_paths(files_dir)
     for extension in FILE_TYPE_DICT[files_type]["extension"]: 
-        file_path_list.extend([p for p in file_path_all_file_list if extension in p and "TableStacker_Mathless/" not in p]) 
+        file_path_list.extend([p for p in file_path_all_file_list if extension in p and "TableStacker_Mathless" not in p]) 
     print(f"""
 {len(file_path_list)} files found in {files_dir}""")
 
@@ -69,8 +66,7 @@ E.g. The output file will have a new column called "SourcePath" and the files in
             for file_path in tqdm(file_path_list): 
                 try: 
                     if source_path_mode: 
-                        if len(file_path.replace(files_dir, "").split("/")) > 1: 
-                            source_path = file_path.replace(files_dir, "")
+                        source_path = file_path.replace(files_dir, "") 
                             
                         df = pd.read_csv(file_path) 
                         df["SourcePath"] = source_path 
@@ -87,8 +83,7 @@ E.g. The output file will have a new column called "SourcePath" and the files in
             for file_path in tqdm(file_path_list): 
                 try: 
                     if source_path_mode: 
-                        if len(file_path.replace(files_dir, "").split("/")) > 1: 
-                            source_path = file_path.replace(files_dir, "")
+                        source_path = file_path.replace(files_dir, "") 
                             
                         try: 
                             df = pd.read_excel(file_path, header=None, sheet_name=0) 
@@ -119,28 +114,25 @@ E.g. The output file will have a new column called "SourcePath" and the files in
         case 3: 
             for file_path in tqdm(file_path_list): 
                 if ".csv" in file_path.split("/")[-1]: 
-                    for file_path in file_path_list: 
-                        try: 
-                            if source_path_mode: 
-                                if len(file_path.replace(files_dir, "").split("/")) > 1: 
-                                    source_path = file_path.replace(files_dir, "")
-                                    
-                                df = pd.read_csv(file_path) 
-                                df["SourcePath"] = source_path 
-                            
-                            else: 
-                                df = pd.read_csv(file_path) 
-                            
-                            output_df = pd.concat([output_df, df]) 
+                    try: 
+                        if source_path_mode: 
+                            source_path = file_path.replace(files_dir, "") 
+
+                            df = pd.read_csv(file_path) 
+                            df["SourcePath"] = source_path 
                         
-                        except: 
-                            fail_list.append(file_path)
+                        else: 
+                            df = pd.read_csv(file_path) 
+                        
+                        output_df = pd.concat([output_df, df]) 
+                    
+                    except: 
+                        fail_list.append(file_path)
                         
                 elif ".xls" in file_path.split("/")[-1]: 
                     try: 
                         if source_path_mode: 
-                            if len(file_path.replace(files_dir, "").split("/")) > 1: 
-                                source_path = file_path.replace(files_dir, "")
+                            source_path = file_path.replace(files_dir, "") 
                             
                             try: 
                                 df = pd.read_excel(file_path, header=None, sheet_name=0) 
